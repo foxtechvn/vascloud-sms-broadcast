@@ -1,0 +1,25 @@
+entity SmsCampaign {
+	name String required,
+	state Integer required,
+	shortMsg String,
+	startAt Instant,
+	expiredAt Instant,
+	pdu TextBlob,
+	vasCloudPackage String,
+	rateLimit Long,
+}
+
+entity CampaignSms {
+  msisdn String,
+  text String,
+  state Integer,
+  submitAt Instant,
+  expiredAt Instant,
+  requestAt Instant,
+}
+
+relationship ManyToOne {
+  CampaignSms{campaignId} to SmsCampaign
+}
+
+paginate all with pager
