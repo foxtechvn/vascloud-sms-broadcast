@@ -24,7 +24,7 @@ public class CampaignSmsDTO implements Serializable {
     private Instant requestAt;
 
 
-    private Long campaignIdId;
+    private Long campaignId;
     
     public Long getId() {
         return id;
@@ -82,12 +82,12 @@ public class CampaignSmsDTO implements Serializable {
         this.requestAt = requestAt;
     }
 
-    public Long getCampaignIdId() {
-        return campaignIdId;
+    public Long getCampaignId() {
+        return campaignId;
     }
 
-    public void setCampaignIdId(Long smsCampaignId) {
-        this.campaignIdId = smsCampaignId;
+    public void setCampaignId(Long smsCampaignId) {
+        this.campaignId = smsCampaignId;
     }
 
     @Override
@@ -121,7 +121,7 @@ public class CampaignSmsDTO implements Serializable {
             ", submitAt='" + getSubmitAt() + "'" +
             ", expiredAt='" + getExpiredAt() + "'" +
             ", requestAt='" + getRequestAt() + "'" +
-            ", campaignIdId=" + getCampaignIdId() +
+            ", campaignIdId=" + getCampaignId() +
             "}";
     }
 }

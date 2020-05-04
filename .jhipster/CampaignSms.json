@@ -14,14 +14,6 @@
             "fieldType": "Integer"
         },
         {
-            "fieldName": "submitAt",
-            "fieldType": "Instant"
-        },
-        {
-            "fieldName": "expiredAt",
-            "fieldType": "Instant"
-        },
-        {
             "fieldName": "requestAt",
             "fieldType": "Instant"
         }
@@ -31,7 +23,7 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "smsCampaign",
             "otherEntityRelationshipName": "campaignSms",
-            "relationshipName": "campaignId",
+            "relationshipName": "campaign",
             "otherEntityField": "id"
         }
     ],

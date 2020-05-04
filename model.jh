@@ -13,13 +13,11 @@ entity CampaignSms {
   msisdn String,
   text String,
   state Integer,
-  submitAt Instant,
-  expiredAt Instant,
   requestAt Instant,
 }
 
 relationship ManyToOne {
-  CampaignSms{campaignId} to SmsCampaign
+  CampaignSms{campaign(name)} to SmsCampaign
 }
 
 paginate all with pagination

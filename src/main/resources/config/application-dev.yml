@@ -59,12 +59,12 @@ spring:
       hibernate.cache.use_query_cache: false
       hibernate.generate_statistics: false
       hibernate.cache.region.factory_class: com.hazelcast.hibernate.HazelcastCacheRegionFactory
-#      hibernate.cache.hazelcast.instance_name: SmsBroadcast
+      hibernate.cache.hazelcast.instance_name: SmsBroadcast
       hibernate.cache.use_minimal_puts: true
       hibernate.cache.hazelcast.use_lite_member: true
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
-    contexts: dev, faker
+    contexts: dev
   mail:
     host: localhost
     port: 25
@@ -145,3 +145,19 @@ jhipster:
 # ===================================================================
 
 # application:
+
+# application:
+
+vascloud:
+  sms-mt-url: 'https://virtserver.swaggerhub.com/dinhtrung/vinaphone-vascloud/1.0.0/SMS_GW_MT_PROXY'
+  ccgw-url: 'http://localhost:18080/services/SMS_GW_MT_PROXY?wsdl'
+
+# Use gridfs as file storage backend
+#gridfs:
+#  bucket-name: hohuymedia
+# File Upload configuration
+minio:
+  endpoint: http://localhost:9091
+  accessKey: Q3AM3UQ867SPQQA43P2F
+  secretKey: zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
+  bucketName: jh6-gateway

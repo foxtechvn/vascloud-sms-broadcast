@@ -12,10 +12,10 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {SmsCampaignMapper.class})
 public interface CampaignSmsMapper extends EntityMapper<CampaignSmsDTO, CampaignSms> {
 
-    @Mapping(source = "campaignId.id", target = "campaignIdId")
+    @Mapping(source = "campaign.id", target = "campaignId")
     CampaignSmsDTO toDto(CampaignSms campaignSms);
 
-    @Mapping(source = "campaignIdId", target = "campaignId")
+    @Mapping(source = "campaignId", target = "campaign.id")
     CampaignSms toEntity(CampaignSmsDTO campaignSmsDTO);
 
     default CampaignSms fromId(Long id) {

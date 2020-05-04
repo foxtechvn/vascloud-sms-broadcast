@@ -7,7 +7,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.util.Objects;
 import java.time.Instant;
 
 /**
@@ -34,18 +33,12 @@ public class CampaignSms implements Serializable {
     @Column(name = "state")
     private Integer state;
 
-    @Column(name = "submit_at")
-    private Instant submitAt;
-
-    @Column(name = "expired_at")
-    private Instant expiredAt;
-
     @Column(name = "request_at")
     private Instant requestAt;
 
     @ManyToOne
     @JsonIgnoreProperties("campaignSms")
-    private SmsCampaign campaignId;
+    private SmsCampaign campaign;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -95,32 +88,6 @@ public class CampaignSms implements Serializable {
         this.state = state;
     }
 
-    public Instant getSubmitAt() {
-        return submitAt;
-    }
-
-    public CampaignSms submitAt(Instant submitAt) {
-        this.submitAt = submitAt;
-        return this;
-    }
-
-    public void setSubmitAt(Instant submitAt) {
-        this.submitAt = submitAt;
-    }
-
-    public Instant getExpiredAt() {
-        return expiredAt;
-    }
-
-    public CampaignSms expiredAt(Instant expiredAt) {
-        this.expiredAt = expiredAt;
-        return this;
-    }
-
-    public void setExpiredAt(Instant expiredAt) {
-        this.expiredAt = expiredAt;
-    }
-
     public Instant getRequestAt() {
         return requestAt;
     }
@@ -134,17 +101,17 @@ public class CampaignSms implements Serializable {
         this.requestAt = requestAt;
     }
 
-    public SmsCampaign getCampaignId() {
-        return campaignId;
+    public SmsCampaign getCampaign() {
+        return campaign;
     }
 
-    public CampaignSms campaignId(SmsCampaign smsCampaign) {
-        this.campaignId = smsCampaign;
+    public CampaignSms campaign(SmsCampaign smsCampaign) {
+        this.campaign = smsCampaign;
         return this;
     }
 
-    public void setCampaignId(SmsCampaign smsCampaign) {
-        this.campaignId = smsCampaign;
+    public void setCampaign(SmsCampaign smsCampaign) {
+        this.campaign = smsCampaign;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -171,8 +138,6 @@ public class CampaignSms implements Serializable {
             ", msisdn='" + getMsisdn() + "'" +
             ", text='" + getText() + "'" +
             ", state=" + getState() +
-            ", submitAt='" + getSubmitAt() + "'" +
-            ", expiredAt='" + getExpiredAt() + "'" +
             ", requestAt='" + getRequestAt() + "'" +
             "}";
     }

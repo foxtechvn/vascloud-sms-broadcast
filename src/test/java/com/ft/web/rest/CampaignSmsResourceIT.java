@@ -44,12 +44,6 @@ public class CampaignSmsResourceIT {
     private static final Integer DEFAULT_STATE = 1;
     private static final Integer UPDATED_STATE = 2;
 
-    private static final Instant DEFAULT_SUBMIT_AT = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_SUBMIT_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final Instant DEFAULT_EXPIRED_AT = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_EXPIRED_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
     private static final Instant DEFAULT_REQUEST_AT = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_REQUEST_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
@@ -81,8 +75,6 @@ public class CampaignSmsResourceIT {
             .msisdn(DEFAULT_MSISDN)
             .text(DEFAULT_TEXT)
             .state(DEFAULT_STATE)
-            .submitAt(DEFAULT_SUBMIT_AT)
-            .expiredAt(DEFAULT_EXPIRED_AT)
             .requestAt(DEFAULT_REQUEST_AT);
         return campaignSms;
     }
@@ -97,8 +89,6 @@ public class CampaignSmsResourceIT {
             .msisdn(UPDATED_MSISDN)
             .text(UPDATED_TEXT)
             .state(UPDATED_STATE)
-            .submitAt(UPDATED_SUBMIT_AT)
-            .expiredAt(UPDATED_EXPIRED_AT)
             .requestAt(UPDATED_REQUEST_AT);
         return campaignSms;
     }
@@ -127,8 +117,6 @@ public class CampaignSmsResourceIT {
         assertThat(testCampaignSms.getMsisdn()).isEqualTo(DEFAULT_MSISDN);
         assertThat(testCampaignSms.getText()).isEqualTo(DEFAULT_TEXT);
         assertThat(testCampaignSms.getState()).isEqualTo(DEFAULT_STATE);
-        assertThat(testCampaignSms.getSubmitAt()).isEqualTo(DEFAULT_SUBMIT_AT);
-        assertThat(testCampaignSms.getExpiredAt()).isEqualTo(DEFAULT_EXPIRED_AT);
         assertThat(testCampaignSms.getRequestAt()).isEqualTo(DEFAULT_REQUEST_AT);
     }
 
@@ -167,8 +155,6 @@ public class CampaignSmsResourceIT {
             .andExpect(jsonPath("$.[*].msisdn").value(hasItem(DEFAULT_MSISDN)))
             .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT)))
             .andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE)))
-            .andExpect(jsonPath("$.[*].submitAt").value(hasItem(DEFAULT_SUBMIT_AT.toString())))
-            .andExpect(jsonPath("$.[*].expiredAt").value(hasItem(DEFAULT_EXPIRED_AT.toString())))
             .andExpect(jsonPath("$.[*].requestAt").value(hasItem(DEFAULT_REQUEST_AT.toString())));
     }
     
@@ -186,8 +172,6 @@ public class CampaignSmsResourceIT {
             .andExpect(jsonPath("$.msisdn").value(DEFAULT_MSISDN))
             .andExpect(jsonPath("$.text").value(DEFAULT_TEXT))
             .andExpect(jsonPath("$.state").value(DEFAULT_STATE))
-            .andExpect(jsonPath("$.submitAt").value(DEFAULT_SUBMIT_AT.toString()))
-            .andExpect(jsonPath("$.expiredAt").value(DEFAULT_EXPIRED_AT.toString()))
             .andExpect(jsonPath("$.requestAt").value(DEFAULT_REQUEST_AT.toString()));
     }
 
@@ -215,8 +199,6 @@ public class CampaignSmsResourceIT {
             .msisdn(UPDATED_MSISDN)
             .text(UPDATED_TEXT)
             .state(UPDATED_STATE)
-            .submitAt(UPDATED_SUBMIT_AT)
-            .expiredAt(UPDATED_EXPIRED_AT)
             .requestAt(UPDATED_REQUEST_AT);
         CampaignSmsDTO campaignSmsDTO = campaignSmsMapper.toDto(updatedCampaignSms);
 
@@ -232,8 +214,6 @@ public class CampaignSmsResourceIT {
         assertThat(testCampaignSms.getMsisdn()).isEqualTo(UPDATED_MSISDN);
         assertThat(testCampaignSms.getText()).isEqualTo(UPDATED_TEXT);
         assertThat(testCampaignSms.getState()).isEqualTo(UPDATED_STATE);
-        assertThat(testCampaignSms.getSubmitAt()).isEqualTo(UPDATED_SUBMIT_AT);
-        assertThat(testCampaignSms.getExpiredAt()).isEqualTo(UPDATED_EXPIRED_AT);
         assertThat(testCampaignSms.getRequestAt()).isEqualTo(UPDATED_REQUEST_AT);
     }
 
