@@ -22,4 +22,5 @@ relationship ManyToOne {
   CampaignSms{campaignId} to SmsCampaign
 }
 
-paginate all with pager
+paginate all with pagination
+dto all with mapstruct
