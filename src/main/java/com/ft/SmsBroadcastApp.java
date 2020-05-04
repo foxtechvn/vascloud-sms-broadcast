@@ -1,6 +1,10 @@
 package com.ft;
 
 import com.ft.config.ApplicationProperties;
+import com.ft.config.MinioConfiguration;
+import com.ft.config.RateLimitConfiguration;
+import com.ft.config.VascloudProperties;
+
 import io.github.jhipster.config.DefaultProfileUtil;
 import io.github.jhipster.config.JHipsterConstants;
 import java.net.InetAddress;
@@ -19,7 +23,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.core.env.Environment;
 
 @SpringBootApplication
-@EnableConfigurationProperties({ LiquibaseProperties.class, ApplicationProperties.class })
+@EnableConfigurationProperties({ LiquibaseProperties.class, ApplicationProperties.class, MinioConfiguration.class, VascloudProperties.class, RateLimitConfiguration.class })
 @EnableDiscoveryClient
 public class SmsBroadcastApp {
     private static final Logger log = LoggerFactory.getLogger(SmsBroadcastApp.class);

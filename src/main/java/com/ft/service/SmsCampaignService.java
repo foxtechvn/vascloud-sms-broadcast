@@ -4,6 +4,8 @@ import com.ft.domain.SmsCampaign;
 import com.ft.repository.SmsCampaignRepository;
 import com.ft.service.dto.SmsCampaignDTO;
 import com.ft.service.mapper.SmsCampaignMapper;
+import com.querydsl.core.types.Predicate;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,8 +29,8 @@ public class SmsCampaignService {
 
     private final SmsCampaignMapper smsCampaignMapper;
 
-    public SmsCampaignService(SmsCampaignRepository smsCampaignRepository, SmsCampaignMapper smsCampaignMapper) {
-        this.smsCampaignRepository = smsCampaignRepository;
+    public SmsCampaignService(SmsCampaignRepository smsSmsCampaignRepository, SmsCampaignMapper smsCampaignMapper) {
+        this.smsCampaignRepository = smsSmsCampaignRepository;
         this.smsCampaignMapper = smsCampaignMapper;
     }
 
@@ -52,9 +54,9 @@ public class SmsCampaignService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<SmsCampaignDTO> findAll(Pageable pageable) {
+    public Page<SmsCampaignDTO> findAll(Predicate predicate, Pageable pageable) {
         log.debug("Request to get all SmsCampaigns");
-        return smsCampaignRepository.findAll(pageable)
+        return (predicate == null ? smsCampaignRepository.findAll(pageable) : smsCampaignRepository.findAll(predicate, pageable))
             .map(smsCampaignMapper::toDto);
     }
 

@@ -85,6 +85,8 @@
         <junit.utReportFolder>${project.testresult.directory}/test</junit.utReportFolder>
         <junit.itReportFolder>${project.testresult.directory}/integrationTest</junit.itReportFolder>
         <!-- jhipster-needle-maven-property -->
+        <bucket4j.version>4.10.0</bucket4j.version>
+        <querydsl.version>4.2.2</querydsl.version>
     </properties>
 
     <dependencyManagement>
@@ -356,6 +358,49 @@
             <artifactId>metrics-core</artifactId>
         </dependency>
         <!-- jhipster-needle-maven-add-dependency -->
+<!-- PROJECT SPECIFIC DEPENDENCIES -->
+<!-- MINIO FILE UPLOAD -->
+		<dependency>
+		    <groupId>io.minio</groupId>
+		    <artifactId>minio</artifactId>
+		    <version>7.0.2</version>
+		</dependency>
+<!-- /MINIO FILE UPLOAD -->
+<!-- QUERYDSL -->
+<dependency>
+	<groupId>com.querydsl</groupId>
+	<artifactId>querydsl-apt</artifactId>
+</dependency>
+<dependency>
+      <groupId>com.querydsl</groupId>
+      <artifactId>querydsl-jpa</artifactId>
+      <classifier>apt</classifier>
+      <version>${querydsl.version}</version>
+ </dependency>
+<dependency>
+    <groupId>org.bitbucket.gt_tech</groupId>
+    <artifactId>spring-data-querydsl-value-operators</artifactId>
+    <version>4.0.0</version>
+</dependency>
+<!-- /QUERYDSL -->
+<!-- XML Format -->
+<dependency>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-xml</artifactId>
+</dependency>
+<!-- /XML Format -->
+<!-- TPS Rate limit -->
+<dependency>
+  <groupId>com.github.vladimir-bukhtoyarov</groupId>
+  <artifactId>bucket4j-core</artifactId>
+</dependency>
+<dependency>
+  <groupId>com.github.vladimir-bukhtoyarov</groupId>
+  <artifactId>bucket4j-hazelcast</artifactId>
+  <version>${bucket4j.version}</version>
+</dependency>
+<!-- /TPS Rate limit -->
+<!-- /PROJECT SPECIFIC DEPENDENCIES -->          
     </dependencies>
 
     <build>
@@ -430,6 +475,22 @@
                 <artifactId>openapi-generator-maven-plugin</artifactId>
             </plugin>
             <!-- jhipster-needle-maven-add-plugin -->
+<plugin>
+  <groupId>com.mysema.maven</groupId>
+  <artifactId>apt-maven-plugin</artifactId>
+  <version>1.1.3</version>
+  <executions>
+    <execution>
+      <goals>
+        <goal>process</goal>
+      </goals>
+      <configuration>
+        <outputDirectory>target/generated-sources/java</outputDirectory>
+        <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>            
         </plugins>
         <pluginManagement>
             <plugins>

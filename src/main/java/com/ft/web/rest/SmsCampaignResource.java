@@ -2,6 +2,7 @@ package com.ft.web.rest;
 
 import com.ft.service.SmsCampaignService;
 import com.ft.web.rest.errors.BadRequestAlertException;
+import com.querydsl.core.types.Predicate;
 import com.ft.service.dto.SmsCampaignDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -13,9 +14,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -52,6 +53,7 @@ public class SmsCampaignResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/sms-campaigns")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<SmsCampaignDTO> createSmsCampaign(@Valid @RequestBody SmsCampaignDTO smsCampaignDTO) throws URISyntaxException {
         log.debug("REST request to save SmsCampaign : {}", smsCampaignDTO);
         if (smsCampaignDTO.getId() != null) {
@@ -73,6 +75,7 @@ public class SmsCampaignResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/sms-campaigns")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<SmsCampaignDTO> updateSmsCampaign(@Valid @RequestBody SmsCampaignDTO smsCampaignDTO) throws URISyntaxException {
         log.debug("REST request to update SmsCampaign : {}", smsCampaignDTO);
         if (smsCampaignDTO.getId() == null) {
@@ -91,9 +94,9 @@ public class SmsCampaignResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of smsCampaigns in body.
      */
     @GetMapping("/sms-campaigns")
-    public ResponseEntity<List<SmsCampaignDTO>> getAllSmsCampaigns(Pageable pageable) {
+    public ResponseEntity<List<SmsCampaignDTO>> getAllSmsCampaigns(Predicate predicate, Pageable pageable) {
         log.debug("REST request to get a page of SmsCampaigns");
-        Page<SmsCampaignDTO> page = smsCampaignService.findAll(pageable);
+        Page<SmsCampaignDTO> page = smsCampaignService.findAll(predicate, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -118,6 +121,7 @@ public class SmsCampaignResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/sms-campaigns/{id}")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<Void> deleteSmsCampaign(@PathVariable Long id) {
         log.debug("REST request to delete SmsCampaign : {}", id);
         smsCampaignService.delete(id);

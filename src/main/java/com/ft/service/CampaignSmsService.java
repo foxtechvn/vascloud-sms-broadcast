@@ -4,6 +4,8 @@ import com.ft.domain.CampaignSms;
 import com.ft.repository.CampaignSmsRepository;
 import com.ft.service.dto.CampaignSmsDTO;
 import com.ft.service.mapper.CampaignSmsMapper;
+import com.querydsl.core.types.Predicate;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,14 +49,15 @@ public class CampaignSmsService {
 
     /**
      * Get all the campaignSms.
+     * @param predicate 
      *
      * @param pageable the pagination information.
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<CampaignSmsDTO> findAll(Pageable pageable) {
-        log.debug("Request to get all CampaignSms");
-        return campaignSmsRepository.findAll(pageable)
+    public Page<CampaignSmsDTO> findAll(Predicate predicate, Pageable pageable) {
+        log.debug("Request to get all CampaignSms, predicate: {} pageble: {}", predicate, pageable);
+        return (predicate == null ? campaignSmsRepository.findAll(pageable) : campaignSmsRepository.findAll(predicate, pageable))
             .map(campaignSmsMapper::toDto);
     }
 
