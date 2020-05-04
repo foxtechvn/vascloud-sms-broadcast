@@ -1,0 +1,57 @@
+{
+    "name": "SmsCampaign",
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "state",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "shortMsg",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "startAt",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "expiredAt",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "pdu",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "vasCloudPackage",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "rateLimit",
+            "fieldType": "Long"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20200504025000",
+    "entityTableName": "sms_campaign",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "SmsBroadcast",
+    "applications": "*",
+    "microserviceName": "SmsBroadcast"
+}

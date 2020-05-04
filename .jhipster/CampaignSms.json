@@ -1,0 +1,50 @@
+{
+    "name": "CampaignSms",
+    "fields": [
+        {
+            "fieldName": "msisdn",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "text",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "state",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "submitAt",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "expiredAt",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "requestAt",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "smsCampaign",
+            "otherEntityRelationshipName": "campaignSms",
+            "relationshipName": "campaignId",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200504025100",
+    "entityTableName": "campaign_sms",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "SmsBroadcast",
+    "applications": "*",
+    "microserviceName": "SmsBroadcast"
+}
