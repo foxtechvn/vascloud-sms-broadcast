@@ -13,7 +13,6 @@ import org.apache.commons.lang.text.StrSubstitutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -22,7 +21,6 @@ import com.ft.config.ApplicationProperties;
 import com.ft.config.MinioConfiguration;
 import com.ft.domain.SmsCampaign;
 import com.ft.domain.CampaignSms;
-import com.ft.domain.QCampaignSms;
 import com.ft.repository.SmsCampaignRepository;
 import com.ft.repository.CampaignSmsRepository;
 import com.ft.service.CampaignImportService;
@@ -80,76 +78,40 @@ public class CampaignImportService {
 	 * @throws Exception 
 	 */
 	private void performCsvImport(File file, SmsCampaign cp) throws Exception {
-//		log.debug("Gonna import CSV file into campaign: {}", cp);
-//		String[] headerColumns = StringUtils.tokenizeToStringArray(cp.getMeta().get("headers").toString(), "\r\n\f\t,", true, true);
-//		String pkey = cp.getMeta().get("pkey") == null ? headerColumns[0] : cp.getMeta().get("pkey").toString();
-//		for (String line : FileUtils.readLines(file, Charset.defaultCharset())) {
-//			try {
-//    			String[] row =  StringUtils.commaDelimitedListToStringArray(line);
-//    		    Map<String, Object> entry = new HashMap<String, Object>();
-//    		    for (int j = 0; j < headerColumns.length; j++) {
-//    		    	try {
-//    		    		entry.put(headerColumns[j], row[j]);
-//    				} catch (Exception e) {
-//   						log.warn("Cannot parse cell: {}, {}: {}", row, j, e);
-//    				}
-//    		    }
-//    		    doSaveSms(cp, pkey, entry);
-//    		} catch (Exception e) {
-//    			log.debug("Cannot import row {}: {}", line, e);
-//    		}
-//		}
-//		// Add the total to this campaign
-//    	long total = smsRepo.count(QCampaignSms.campaignSms.requestBy.eq(cp.getId()));
-////		cp.getMeta().put("total", total);
-//		cpRepo.save(cp);
-//		
-//		file.delete();
+		log.debug("Gonna import CSV file into campaign: {}", cp);
+		String[] headerColumns = StringUtils.tokenizeToStringArray("msisdn", "\r\n\f\t,", true, true);
+		String pkey = "msisdn";
+		for (String line : FileUtils.readLines(file, Charset.defaultCharset())) {
+			try {
+    			String[] row =  StringUtils.commaDelimitedListToStringArray(line);
+    		    Map<String, Object> entry = new HashMap<String, Object>();
+    		    for (int j = 0; j < headerColumns.length; j++) {
+    		    	try {
+    		    		entry.put(headerColumns[j], row[j]);
+    				} catch (Exception e) {
+   						log.warn("Cannot parse cell: {}, {}: {}", row, j, e);
+    				}
+    		    }
+    		    doSaveSms(cp, pkey, entry);
+    		} catch (Exception e) {
+    			log.debug("Cannot import row {}: {}", line, e);
+    		}
+		}
+		// Add the total to this campaign
+    	long total = smsRepo.countByCampaign(cp);
+//		cp.getMeta().put("total", total);
+		cpRepo.save(cp);
+		
+		file.delete();
 	}
 	
 	/**
-	 * Perform import for embed campaign
-	 * @param cp
-	 * @throws Exception
-	 */
-	public void importMsisdnText(SmsCampaign cp) throws Exception {
-//		String[] headerColumns = StringUtils.tokenizeToStringArray(cp.getMeta().get("headers").toString(), "\r\n\f\t,", true, true);
-//		String pkey = cp.getMeta().get("pkey") == null ? headerColumns[0] : cp.getMeta().get("pkey").toString();
-//		for (String line : StringUtils.tokenizeToStringArray(cp.getMeta().get("msisdnText").toString(), "\r\n\f")) {
-//			try {
-//    			String[] row =  StringUtils.commaDelimitedListToStringArray(line);
-//    		    Map<String, Object> entry = new HashMap<String, Object>();
-//    		    for (int j = 0; j < headerColumns.length; j++) {
-//    		    	try {
-//    		    		entry.put(headerColumns[j], row[j]);
-//    				} catch (Exception e) {
-//   						log.warn("Cannot parse cell: {}, {}: {}", row, j, e);
-//    				}
-//    		    }
-//    		    doSaveSms(cp, pkey, entry);
-//    		} catch (Exception e) {
-//    			log.debug("Cannot import row {}: {}", line, e);
-//    		}
-//		}
-//		// Add the total to this campaign
-//    	long total = smsRepo.count(QCampaignSms.campaignSms.campaign.id.eq(cp.getId()));
-//		cp.getMeta().put("total", total);
-//		cpRepo.save(cp);
-	}
-
-	/**
-	 * Perform import one specific campaign
+	 * Perform import one specific campaign. Campaign name is the name of the file upload to MINIO
 	 * @param cp
 	 * @throws Exception
 	 */
 	public void importDataSource(SmsCampaign cp) throws Exception {
-//		if (cp.getDatasource() == 100) {
-//			this.importMsisdnText(cp);
-//		} else if (cp.getDatasource() == 101) {
-//			for (String fileName : cp.getAttachments()) {
-//				this.importFile(fileName, cp);
-//			}
-//		}
+		this.importFile(cp.getName(), cp);
 	}
 	
 	/**

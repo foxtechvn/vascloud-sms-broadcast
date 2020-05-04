@@ -10,8 +10,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +29,6 @@ import com.ft.repository.CampaignSmsRepository;
 import com.ft.vascloud.components.CampaignSmsSubmitCallable;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.ICountDownLatch;
-
-import io.micrometer.core.instrument.Metrics;
 
 @Service
 public class CampaignSmsProcessorService {
@@ -62,10 +58,6 @@ public class CampaignSmsProcessorService {
 
 	public static Map<Long, Future<Long>> futures = new ConcurrentHashMap<>();
 	
-	public static AtomicInteger gauge = Metrics.globalRegistry.gauge("campaign_firing", new AtomicInteger(0));
-	
-	public static AtomicLong smsGauge = Metrics.globalRegistry.gauge("pending_sms", new AtomicLong(0));
-
 	/**
 	 * Perform send SMS per campaign on separate Callable
 	 * @throws InterruptedException 
@@ -85,11 +77,9 @@ public class CampaignSmsProcessorService {
 		// Then again we can submit the tasks and get the result like:
 		cleanupFutures();
 		
-		smsGauge.set(0L);
 		for (SmsCampaign cp : campaignRepo.findAllByState(HttpStatus.MOVED_PERMANENTLY.value())) {
 			enqueueSmsForCampaign(executorCompletionService, cp);
 		}
-		gauge.set(futures.size());
 		for (int i = 0; i < futures.size(); i++) {
 			result = awaitCompletion(result, executorCompletionService);
 		}
@@ -140,7 +130,6 @@ public class CampaignSmsProcessorService {
 			locked += 1;
 			campaignSmsRepository.save(sms.state(HttpStatus.LOCKED.value()));
 		}
-		smsGauge.addAndGet(locked);
 		if (locked > 0) {
 			// Submit the SMS list into separate thread for further processing
 			CampaignSmsSubmitCallable task = appContext.getBean(CampaignSmsSubmitCallable.class);
